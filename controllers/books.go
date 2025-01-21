@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log/slog"
 	"net/http"
 
 	"github.com/SigNoz/sample-golang-app/models"
@@ -24,6 +25,7 @@ type UpdateBookInput struct {
 func FindBooks(c *gin.Context) {
 	var books []models.Book
 	span := trace.SpanFromContext(c.Request.Context())
+	slog.Info("ccccccccccccccccccccccccccc::::\"trace_id\":\"" + span.SpanContext().TraceID().String() + "\",\"span_id\":\"" + span.SpanContext().SpanID().String() + "\"")
 	span.SetAttributes(attribute.String("controller", "books"))
 	span.AddEvent("This is a sample event", trace.WithAttributes(attribute.Int("pid", 4328), attribute.String("sampleAttribute", "Test")))
 	models.DB.WithContext(c.Request.Context()).Find(&books)
